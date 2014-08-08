@@ -1,0 +1,79 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+
+    "Description": "Tests the subscribe sns to sqs resource",
+
+    "Parameters": {
+        "EntryTopic": {
+            "Description": "SNS topic that will be used",
+            "Type": "String"
+        }
+    },
+
+    "Outputs": {
+        "FirstQueue": {
+            "Description": "The first queue",
+            "Value": {
+                "Fn::GetAtt": ["FirstQueue", "QueueName"]
+            }
+        },
+        "FirstQueueArn": {
+            "Description": "The first queue",
+            "Value": {
+                "Fn::GetAtt": ["FirstQueue", "Arn"]
+            }
+        },
+        "FirstTopic": {
+            "Description": "The first topic",
+            "Value": {
+                "Ref": "FirstTopic"
+            }
+        },
+        "SubscriptionArn": {
+            "Description": "The arn for the subscription created",
+            "Value": {
+                "Fn::GetAtt": ["SubscribeResource", "Arn"]
+            }
+        },
+        "SubscriptionEndpoint": {
+            "Description": "The endpoint for the subscription created",
+            "Value": {
+                "Fn::GetAtt": ["SubscribeResource", "Endpoint"]
+            }
+        },
+        "SubscriptionProtocol": {
+            "Description": "The protocol for the subscription created",
+            "Value": {
+                "Fn::GetAtt": ["SubscribeResource", "Protocol"]
+            }
+        }
+    },
+
+    "Resources": {
+        "FirstQueue": {
+            "Type": "AWS::SQS::Queue",
+            "Properties": {
+                "ReceiveMessageWaitTimeSeconds": 20,
+                "VisibilityTimeout": 60
+            }
+        },
+        "FirstTopic": {
+            "Type": "AWS::SNS::Topic"
+        },
+        "SubscribeResource": {
+            "Type": "Custom::SubscribeSQSQueueToSNSTopic",
+            "Properties": {
+                "ServiceToken": {
+                    "Ref": "EntryTopic"
+                },
+                "TopicArn": {
+                    "Ref": "FirstTopic"
+                },
+                "QueueName": {
+                    "Fn::GetAtt": ["FirstQueue", "QueueName"]
+                }
+            }
+        }
+    }
+
+}

@@ -1,0 +1,12 @@
+{
+  "Type" : "Notification",
+  "MessageId" : "2c954555-19cd-58b9-9461-0909bad60c89",
+  "TopicArn" : "arn:aws:sns:us-east-1:123456789012:test-custom-b2bea71b-e1b8-4b8f-9855-1c92e1f0cd11-CustomResourcesTopic-1E5ZVSSFPY65Z",
+  "Subject" : "AWS CloudFormation custom resource request",
+  "Message" : "{\"RequestType\":\"Create\",\"TopicArn\":\"arn:aws:sns:us-east-1:123456789012:test-custom-b2bea71b-e1b8-4b8f-9855-1c92e1f0cd11-CustomResourcesTopic-1E5ZVSSFPY65Z\",\"ResponseURL\":\"https://cloudformation-custom-resource-response-useast1.s3.amazonaws.com/arn%3Aaws%3Acloudformation%3Aus-east-1%3A123456789012%3Astack/test-custom-11fa3098-9e58-4fb4-8af3-63e29a8fa4aa/4d120bd0-1db2-11e4-a357-500162a66ca8%7COutputsResource%7C51e2334b-ace8-4b52-bf7d-3c9f88610c20?AWSAccessKeyId=AKIAJNXHFR7P7YGKLDPQ&Expires=1407368443&Signature=LW%2BCCq8ypCC4qWVy2wdOFx6CTyA%3D\",\"StackId\":\"arn:aws:cloudformation:us-east-1:123456789012:stack/test-custom-11fa3098-9e58-4fb4-8af3-63e29a8fa4aa/4d120bd0-1db2-11e4-a357-500162a66ca8\",\"RequestId\":\"51e2334b-ace8-4b52-bf7d-3c9f88610c20\",\"LogicalResourceId\":\"OutputsResource\",\"ResourceType\":\"Custom::CloudFormationOutputs\",\"ResourceProperties\":{\"Name\":\"test-custom-b2bea71b-e1b8-4b8f-9855-1c92e1f0cd11\",\"ServiceToken\":\"arn:aws:sns:us-east-1:123456789012:test-custom-b2bea71b-e1b8-4b8f-9855-1c92e1f0cd11-CustomResourcesTopic-1E5ZVSSFPY65Z\"}}",
+  "Timestamp" : "2014-08-06T21:40:43.535Z",
+  "SignatureVersion" : "1",
+  "Signature" : "KSCvlwOejMvy61BVOfmbHqF3LCab0wpnuwlWLXUPXNl8tBjd8j1lHaFdtLzIB7B0jj+t6uvDHA/AM03TmNYuM9wXUO2A71oqls2PWIdchjoW/dCrjvdE0ztqmMLaMG87VqvrZVnIDYKQpZugl5a4AshKEPx2WcEUiLxMi9gjE5L0GpmEG7qE9xyJH7KMQemCAUcNOWAK1Y6LWRGybVICslEACn8NYJc92akDN6im7b9w+i71DJC7dFDEgC/3y7YeGCFsq9I/MQXv71JrWMaJxHfp+LOXP6ucISKBMfJYpBpB4GsVuB0jW/cELkPqFyb2WVvHxWiWm1wvh2K/Vuo74Q==",
+  "SigningCertURL" : "https://sns.us-east-1.amazonaws.com/SimpleNotificationService-e372f8ca30337fdb084e8ac449342c77.pem",
+  "UnsubscribeURL" : "https://sns.us-east-1.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-east-1:123456789012:test-custom-b2bea71b-e1b8-4b8f-9855-1c92e1f0cd11-CustomResourcesTopic-1E5ZVSSFPY65Z:1d19910d-8377-4c9d-a380-46102f10e36f"
+}

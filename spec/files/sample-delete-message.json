@@ -1,0 +1,12 @@
+{
+  "Type" : "Notification",
+  "MessageId" : "f13ac688-5253-5d90-b825-8ad4f1631b9f",
+  "TopicArn" : "arn:aws:sns:us-east-1:123456789012:test-custom-b2bea71b-e1b8-4b8f-9855-1c92e1f0cd11-CustomResourcesTopic-1E5ZVSSFPY65Z",
+  "Subject" : "AWS CloudFormation custom resource request",
+  "Message" : "{\"RequestType\":\"Delete\",\"TopicArn\":\"arn:aws:sns:us-east-1:123456789012:test-custom-b2bea71b-e1b8-4b8f-9855-1c92e1f0cd11-CustomResourcesTopic-1E5ZVSSFPY65Z\",\"ResponseURL\":\"https://cloudformation-custom-resource-response-useast1.s3.amazonaws.com/arn%3Aaws%3Acloudformation%3Aus-east-1%3A123456789012%3Astack/test-custom-11fa3098-9e58-4fb4-8af3-63e29a8fa4aa/4d120bd0-1db2-11e4-a357-500162a66ca8%7COutputsResource%7Cf3686111-7338-46be-b312-dd1baaea84b9?AWSAccessKeyId=AKIAJNXHFR7P7YGKLDPQ&Expires=1407368464&Signature=YXOhftA3sOP4YR6NV2c78wHkhP4%3D\",\"StackId\":\"arn:aws:cloudformation:us-east-1:123456789012:stack/test-custom-11fa3098-9e58-4fb4-8af3-63e29a8fa4aa/4d120bd0-1db2-11e4-a357-500162a66ca8\",\"RequestId\":\"f3686111-7338-46be-b312-dd1baaea84b9\",\"LogicalResourceId\":\"OutputsResource\",\"PhysicalResourceId\":\"arn:aws:cloudformation:us-east-1:123456789012:stack/test-custom-b2bea71b-e1b8-4b8f-9855-1c92e1f0cd11/39d01580-1db2-11e4-9b37-50fa5262a838\",\"ResourceType\":\"Custom::CloudFormationOutputs\",\"ResourceProperties\":{\"Name\":\"test-custom-b2bea71b-e1b8-4b8f-9855-1c92e1f0cd11\",\"ServiceToken\":\"arn:aws:sns:us-east-1:123456789012:test-custom-b2bea71b-e1b8-4b8f-9855-1c92e1f0cd11-CustomResourcesTopic-1E5ZVSSFPY65Z\"}}",
+  "Timestamp" : "2014-08-06T21:41:04.888Z",
+  "SignatureVersion" : "1",
+  "Signature" : "AkfEKcPydGagg5VJoSjWv1MkgwlCAaKuxHZ8NR6SOZePdcT/6H8OiE7epEjt9C17wtIx/WnqOHS7Nmm5PufogNYsxb2fCcZ9D6Av02vd1M5KwmpsRvWWHR2qLvOQk0lRjkkrD0Ol2Yt9TBwxsmYX77b6Nzg7Fn0qGoPNNwlCyUU0qfIQgXfDZR8SO9AZIS7GJ2MUTzXVJCNc5VoNcEDl+0y0yOrz97TetS4qBXhUaNhgfag/Zt/hMNHR+DKlirTSYWx7HhiSDt2jrlhsLMZy0wzMzKwV0Gp40xVZGc33kk38tt1ChrkKUzpEca3u8pRZ8f2jU0EI0Xh48Sn2tAGrLw==",
+  "SigningCertURL" : "https://sns.us-east-1.amazonaws.com/SimpleNotificationService-e372f8ca30337fdb084e8ac449342c77.pem",
+  "UnsubscribeURL" : "https://sns.us-east-1.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-east-1:123456789012:test-custom-b2bea71b-e1b8-4b8f-9855-1c92e1f0cd11-CustomResourcesTopic-1E5ZVSSFPY65Z:1d19910d-8377-4c9d-a380-46102f10e36f"
+}

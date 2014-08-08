@@ -1,0 +1,75 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+
+    "Description": "Creates the SNS topic, SQS queue and instance that will service the custom resources queue",
+
+    "Outputs": {
+        "Queue": {
+            "Description": "The queue to where we will poll messages",
+            "Value": {
+                "Fn::GetAtt": ["CustomResourcesQueue", "QueueName"]
+            }
+        },
+        "Topic" : {
+            "Description": "The topic that will be taking messages",
+            "Value": {
+                "Ref": "CustomResourcesTopic"
+            }
+        }
+    },
+
+    "Resources": {
+        "CustomResourcesQueue": {
+            "Type": "AWS::SQS::Queue",
+            "Properties": {
+                "ReceiveMessageWaitTimeSeconds": 20,
+                "VisibilityTimeout": 60
+            }
+        },
+        "CustomResourcesTopic": {
+            "Type": "AWS::SNS::Topic",
+            "Properties": {
+                "Subscription": [
+                    {
+                        "Endpoint": {
+                            "Fn::GetAtt": ["CustomResourcesQueue", "Arn"]
+                        },
+                        "Protocol": "sqs"
+                    }
+                ]
+            }
+        },
+        "SNSToSQSPolicy": {
+            "Type": "AWS::SQS::QueuePolicy",
+            "Properties": {
+                "PolicyDocument": {
+                    "Id": "PushMessageToSQSPolicy",
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Sid": "allow-sns-to-send-message-to-sqs",
+                            "Effect": "Allow",
+                            "Action": ["sqs:SendMessage"],
+                            "Principal": {
+                                "AWS": "*"
+                            },
+                            "Resource": "*",
+                            "Condition": {
+                                "ArnEquals": {
+                                    "aws:SourceArn": {
+                                        "Ref": "CustomResourcesTopic"
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                "Queues": [
+                    {
+                        "Ref": "CustomResourcesQueue"
+                    }
+                ]
+            }
+        }
+    }
+}

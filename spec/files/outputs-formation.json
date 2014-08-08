@@ -1,0 +1,48 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+
+    "Description": "Tests the CFN outputs resource",
+
+    "Parameters": {
+        "EntryTopic": {
+            "Description": "SNS topic that will be used",
+            "Type": "String"
+        },
+        "EntryQueue": {
+            "Description": "The queue to be polled",
+            "Type": "String"
+        },
+        "Name": {
+            "Description": "The CFN name to be loaded",
+            "Type": "String"
+        }
+    },
+
+    "Outputs": {
+        "Queue": {
+            "Description": "The queue to be polled",
+            "Value": {
+                "Fn::GetAtt": ["OutputsResource", "Queue"]
+            }
+        },
+        "Topic": {
+            "Description": "The topic to be polled",
+            "Value": {
+                "Fn::GetAtt": ["OutputsResource", "Topic"]
+            }
+        }
+    },
+
+    "Resources": {
+        "OutputsResource": {
+            "Type": "Custom::CloudFormationOutputs",
+            "Properties": {
+                "ServiceToken" : {"Ref" : "EntryTopic"},
+                "Name": {
+                    "Ref": "Name"
+                }
+            }
+        }
+    }
+
+}
