@@ -88,5 +88,5 @@ RSpec.configure do |config|
 end
 
 ['cloud_formation_creator', 'file_support'].each do |file|
-  require File.join(__dir__, 'support', file)
+  require File.join(File.dirname(__FILE__), 'support', file)
 end
