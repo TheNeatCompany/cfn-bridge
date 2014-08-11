@@ -27,6 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'aws-sdk', '~> 1.50.0'
   spec.add_dependency 'faraday', '~> 0.9.0'
   spec.add_dependency 'faraday_middleware', '~> 0.9.1'
+  spec.add_dependency 'faraday_curl', '~> 0.0.2'
   spec.add_dependency 'thor', '~> 0.19.1'
   spec.add_dependency 'typhoeus', '~> 0.6.9'
   spec.add_dependency 'rollbar', '~> 1.0.0'

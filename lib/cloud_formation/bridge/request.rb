@@ -70,16 +70,11 @@ module CloudFormation
           FIELDS::STATUS => RESULTS::FAILED,
         )
 
-        logger.error("Failing request #{request_url} - #{response.inspect}")
-
         HttpBridge.put(request_url, response)
       end
 
       def succeed!(response)
         actual_response = build_response(response || {})
-
-        logger.info("Succeeding request #{request_url} - #{actual_response.inspect}")
-
         HttpBridge.put(request_url, actual_response)
       end
 

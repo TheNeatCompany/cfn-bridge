@@ -13,6 +13,7 @@ module CloudFormation
         def put(url, data)
           connection = Faraday.new do |f|
             f.request :json
+            f.request :curl, Util::LOGGER , :info
             f.request :retry, max: 2, interval: 0.05, interval_randomness: 0.5, backoff_factor: 2
 
             f.response :raise_error
