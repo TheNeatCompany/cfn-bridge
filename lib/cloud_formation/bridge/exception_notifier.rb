@@ -1,3 +1,4 @@
+require 'cloud_formation/bridge/util'
 require 'singleton'
 require 'rollbar'
 
@@ -15,7 +16,7 @@ module CloudFormation
       include Singleton
 
       def report_exception(exception, custom_data = {}, user_data = {})
-        puts "#{exception.message} - #{custom_data.inspect} - #{user_data.inspect}\n#{exception.backtrace.join("\n")}"
+        Util::LOGGER.error("#{exception.message} - #{custom_data.inspect} - #{user_data.inspect}\n#{exception.backtrace.join("\n")}")
       end
 
     end

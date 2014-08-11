@@ -1,7 +1,7 @@
 require 'cloud_formation/bridge/executor'
 require 'cloud_formation/bridge/exception_notifier'
 require 'cloud_formation/bridge/request'
-require 'logger'
+require 'cloud_formation/bridge/util'
 
 module CloudFormation
   module Bridge
@@ -9,7 +9,7 @@ module CloudFormation
 
       attr_reader :logger, :running
 
-      def initialize(queue_name, executor = CloudFormation::Bridge::Executor.new, logger = Logger.new(STDOUT))
+      def initialize(queue_name, executor = CloudFormation::Bridge::Executor.new, logger = Util::LOGGER)
         @queue_name = queue_name
         @executor = executor
         @logger = logger
@@ -29,17 +29,20 @@ module CloudFormation
       def poll
         message = queue.receive_message
 
-        return unless message
+        unless message
+          logger.info("No messages found, looping again")
+          return
+        end
 
         begin
           logger.info("Received message #{message.id} - #{message.body}")
           body = JSON.parse(message.body)
-          request = CloudFormation::Bridge::Request.new(JSON.parse(body["Message"]))
+          request = CloudFormation::Bridge::Request.new(JSON.parse(body["Message"]), logger)
           @executor.execute(request)
           message.delete
           logger.info("Processed message #{message.id}")
           message
-        rescue => ex
+        rescue Exception => ex
           logger.info("Failed to process message #{message.id} - #{ex.message}")
           ExceptionNotifier.report_exception(ex,
             message: message.body,

@@ -1,6 +1,7 @@
 require 'securerandom'
 require 'cloud_formation/bridge/http_bridge'
 require 'cloud_formation/bridge/names'
+require 'cloud_formation/bridge/util'
 
 module CloudFormation
   module Bridge
@@ -8,10 +9,11 @@ module CloudFormation
 
       include CloudFormation::Bridge::Names
 
-      attr_reader :request
+      attr_reader :request, :logger
 
-      def initialize(request)
+      def initialize(request, logger = Util::LOGGER)
         @request = request
+        @logger = logger
       end
 
       def update?
@@ -68,11 +70,17 @@ module CloudFormation
           FIELDS::STATUS => RESULTS::FAILED,
         )
 
+        logger.error("Failing request #{request_url} - #{response.inspect}")
+
         HttpBridge.put(request_url, response)
       end
 
       def succeed!(response)
-        HttpBridge.put(request_url, build_response(response || {}))
+        actual_response = build_response(response || {})
+
+        logger.info("Succeeding request #{request_url} - #{actual_response.inspect}")
+
+        HttpBridge.put(request_url, actual_response)
       end
 
       def build_response(response = {})
