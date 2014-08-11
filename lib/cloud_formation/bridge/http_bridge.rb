@@ -2,6 +2,7 @@ require 'faraday'
 require 'faraday_middleware'
 require 'typhoeus'
 require 'typhoeus/adapters/faraday'
+require 'faraday_curl'
 require 'cloud_formation/bridge/util'
 
 module CloudFormation
