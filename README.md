@@ -111,7 +111,7 @@ From that on, we just implement the operation, grab the queue, grab the topic, s
 
 Let's look at an example return response in raw JSON:
 
-```json
+```javascript
 {
    "Status" : "SUCCESS",
    "PhysicalResourceId" : "Tester1",
@@ -168,7 +168,7 @@ Once you resource is implemented, you must either register it at the [Executor::
 
 Once you have it registered, you can just declare your resource at any cloud formation template:
 
-```json
+```javascript
 "Resources": {
     "FirstQueue": {
         "Type": "AWS::SQS::Queue",
