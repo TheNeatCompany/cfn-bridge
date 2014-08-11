@@ -2,6 +2,7 @@ require 'faraday'
 require 'faraday_middleware'
 require 'typhoeus'
 require 'typhoeus/adapters/faraday'
+require 'cloud_formation/bridge/util'
 
 module CloudFormation
   module Bridge
@@ -20,7 +21,11 @@ module CloudFormation
             f.adapter :typhoeus
           end
 
-          connection.put(url, data, 'Content-Type' => '')
+          response = connection.put(url, data, 'Content-Type' => '')
+
+          Util::LOGGER.info("S3 response was #{response.inspect}")
+
+          response
         end
 
       end

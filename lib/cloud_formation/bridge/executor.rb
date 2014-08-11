@@ -38,7 +38,7 @@ module CloudFormation
           else
             request.fail!("Don't know what to do with resource #{request.resource_type}")
           end
-        rescue => ex
+        rescue Exception => ex
           ExceptionNotifier.report_exception(ex, request.request)
           request.fail!(ex.message)
         end
