@@ -9,7 +9,7 @@ module CloudFormation
       desc "start QUEUE_NAME", "Starts watching this specific SQS queue"
       def start(queue_name)
         STDOUT.sync = true
-        poller = CloudFormation::Bridge::Poller.new(queue_name, Util::LOGGER)
+        poller = CloudFormation::Bridge::Poller.new(queue_name)
         poller.start
       end
 
