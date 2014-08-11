@@ -1,3 +1,22 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [cfn-bridge](#cfn-bridge)
+	- [Installation](#installation)
+	- [Usage](#usage)
+	- [Building a custom resource](#building-a-custom-resource)
+		- [Implementing the `create` operation](#implementing-the-create-operation)
+		- [Implementing `update` is usually not a requirement](#implementing-update-is-usually-not-a-requirement)
+		- [Implementing the `delete` operation](#implementing-the-delete-operation)
+		- [Registering and using it](#registering-and-using-it)
+	- [Current custom resources](#current-custom-resources)
+		- [Custom::SubscribeSQSQueueToSNSTopic](#customsubscribesqsqueuetosnstopic)
+		- [Custom::CloudFormationOutputs](#customcloudformationoutputs)
+	- [Contributing](#contributing)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # cfn-bridge
 
 [This project is sponsored by Neat](http://www.neat.com/)
