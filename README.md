@@ -194,6 +194,12 @@ It is declared just like any other custom resource with the name you have regist
 
 And with this you should be able to start creating your own custom cloud formation resources.
 
+Gotchas you should be aware:
+
+* Do not return `nil` on `Data` fields, your resource will not be created and you will not get any error message about this;
+* Make sure all messages are logged somewhere (I'd recommend an email) so even if the service fails to create resources for some reason you can still work with the cloud formation manually;
+* Direct your logs somewhere where you can easily look at, the command line interface will print everything to `STDOUT`, make sure you send this data to a file so you can look at what's going on;
+
 ## Current custom resources
 
 ### Custom::SubscribeSQSQueueToSNSTopic
