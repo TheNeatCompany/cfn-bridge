@@ -80,11 +80,7 @@ describe CloudFormation::Bridge::Resources::SubscribeQueueToTopic do
 
           received_message = JSON.parse(message.body)["Message"]
 
-          expected_outputs = stack_outputs(topics_stack)
-
           expect(received_message).to eq(message_body)
-          expect(expected_outputs["SubscriptionProtocol"]).to eq('sqs')
-          expect(expected_outputs["FirstQueueArn"]).to eq(expected_outputs["SubscriptionEndpoint"])
         end
       end
 

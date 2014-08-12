@@ -62,8 +62,6 @@ Let's look at our `SubscribeQueueToTopic` to get a sense of how custom resources
 
 ```ruby
 ARN = 'Arn'
-ENDPOINT = 'Endpoint'
-PROTOCOL = 'Protocol'
 
 TOPIC_ARN = 'TopicArn'
 QUEUE_NAME = 'QueueName'
@@ -75,7 +73,7 @@ REQUIRED_FIELDS = [
 ]
 ```
 
-This list of constants are first the outputs produced by the resource (`ARN`, `ENDPOINT` and `PROTOCOL`) and then the inputs that are used to create it, `TOPIC_ARN`, `QUEUE_NAME` and `RAW_MESSAGE_DELIVERY`. The inputs are the fields we use to create the resource, since this resource is meant to subscribe an SQS queue to an SNS topic, we accept the topic ARN, the queue name and an optional `raw message delivery` field that instructs the subscription to send the raw message only and not the message with the other SNS fields.
+This list of constants are first the outputs produced by the resource (`ARN`) and then the inputs that are used to create it, `TOPIC_ARN`, `QUEUE_NAME` and `RAW_MESSAGE_DELIVERY`. The inputs are the fields we use to create the resource, since this resource is meant to subscribe an SQS queue to an SNS topic, we accept the topic ARN, the queue name and an optional `raw message delivery` field that instructs the subscription to send the raw message only and not the message with the other SNS fields.
 
 ### Implementing the `create` operation
 
@@ -98,8 +96,6 @@ def create(request)
     FIELDS::PHYSICAL_RESOURCE_ID => subscription.arn,
     FIELDS::DATA => {
       ARN => subscription.arn,
-      ENDPOINT => subscription.endpoint,
-      PROTOCOL => subscription.protocol,
     },
   }
 end
@@ -132,8 +128,6 @@ And let's look at the one we're returning at the current `create` method:
   FIELDS::PHYSICAL_RESOURCE_ID => subscription.arn,
   FIELDS::DATA => {
     ARN => subscription.arn,
-    ENDPOINT => subscription.endpoint,
-    PROTOCOL => subscription.protocol,
   },
 }
 ```
@@ -147,7 +141,6 @@ The `Data` field should contain fields that might be useful for the cloud format
 ### Implementing `update` is usually not a requirement
 
 Since it wouldn't make much sense to update a subscription (you're either subscribed to something or you're not) we don't have an `update` method here, but if it makes sense for your resource, the update method follows the same pattern as `create`, just make sure you're *not changing the physical resource id* as it will be ignored. It's usually much simpler not to implement updates and always require the resource to be deleted and created again.
-
 
 ### Implementing the `delete` operation
 

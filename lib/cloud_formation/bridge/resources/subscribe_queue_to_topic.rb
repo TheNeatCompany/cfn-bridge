@@ -9,8 +9,6 @@ module CloudFormation
       class SubscribeQueueToTopic < Base
 
         ARN = 'Arn'
-        ENDPOINT = 'Endpoint'
-        PROTOCOL = 'Protocol'
 
         TOPIC_ARN = 'TopicArn'
         QUEUE_NAME = 'QueueName'
@@ -37,8 +35,6 @@ module CloudFormation
             FIELDS::PHYSICAL_RESOURCE_ID => subscription.arn,
             FIELDS::DATA => {
               ARN => subscription.arn,
-              ENDPOINT => subscription.endpoint,
-              PROTOCOL => subscription.protocol,
             },
           }
         end
