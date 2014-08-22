@@ -14,6 +14,8 @@ module CloudFormation
           CloudFormation::Bridge::Resources::SubscribeQueueToTopic.new,
         "Custom::CloudFormationOutputs" =>
           CloudFormation::Bridge::Resources::CloudFormationOutputs.new,
+        "Custom::CreateRedisReplication" =>
+          CloudFormation::Bridge::Resources::CreateRedisReplication.new,
       }
 
       attr_reader :registry
