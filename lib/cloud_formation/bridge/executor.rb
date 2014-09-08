@@ -2,6 +2,7 @@ require 'cloud_formation/bridge/exception_notifier'
 require 'cloud_formation/bridge/names'
 require 'cloud_formation/bridge/resources/subscribe_queue_to_topic'
 require 'cloud_formation/bridge/resources/cloud_formation_outputs'
+require 'cloud_formation/bridge/resources/create_redis_replication'
 
 module CloudFormation
   module Bridge
