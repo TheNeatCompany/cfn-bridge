@@ -12,13 +12,13 @@
 
   "Resources": {
     "RedisClusterReplicationGroup": {
-      "Type": "Custom::ElastiCacheRedisReplicationGroup",
+      "Type": "Custom::ElastiCacheReplicationGroup",
       "Properties": {
         "ServiceToken": {
           "Ref": "EntryTopic"
         },
         "ClusterId": "red-re-1uptio9f2ytdi",
-        "ReplicasCount": 1,
+        "ReplicationGroupId" : "dev-redis-rep",
         "Description": "Sample replication group for the redis instances"
       }
     }
@@ -27,7 +27,7 @@
   "Outputs": {
     "ReplicaURLs": {
       "Value": {
-        "Fn::GetAtt": ["RedisClusterReplicationGroup", "NodeURLs"]
+        "Fn::GetAtt": ["RedisClusterReplicationGroup", "ReplicationGroupId"]
       }
     }
   }

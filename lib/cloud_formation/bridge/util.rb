@@ -1,4 +1,5 @@
 require 'logger'
+require 'securerandom'
 
 module CloudFormation
   module Bridge

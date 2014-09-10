@@ -9,8 +9,8 @@ module CloudFormation
       class Base
         include CloudFormation::Bridge::Names
 
-        def require_fields(request, fields)
-          empty_fields = fields.select do |field|
+        def require_fields(request, *fields)
+          empty_fields = fields.flatten.select do |field|
             request.resource_properties[field].nil? ||
               request.resource_properties[field].strip.empty?
           end

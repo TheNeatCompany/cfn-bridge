@@ -2,7 +2,8 @@ require 'cloud_formation/bridge/exception_notifier'
 require 'cloud_formation/bridge/names'
 require 'cloud_formation/bridge/resources/subscribe_queue_to_topic'
 require 'cloud_formation/bridge/resources/cloud_formation_outputs'
-require 'cloud_formation/bridge/resources/create_elasti_cache_redis_replication'
+require 'cloud_formation/bridge/resources/elasti_cache_replication_group'
+require 'cloud_formation/bridge/resources/elasti_cache_replica_cluster'
 
 module CloudFormation
   module Bridge
@@ -15,8 +16,10 @@ module CloudFormation
           CloudFormation::Bridge::Resources::SubscribeQueueToTopic.new,
         "Custom::CloudFormationOutputs" =>
           CloudFormation::Bridge::Resources::CloudFormationOutputs.new,
-        "Custom::ElastiCacheRedisReplicationGroup" =>
-          CloudFormation::Bridge::Resources::CreateElastiCacheRedisReplication.new,
+        "Custom::ElastiCacheReplicationGroup" =>
+          CloudFormation::Bridge::Resources::ElastiCacheReplicationGroup.new,
+        "Custom::ElastiCacheReplicaCluster" =>
+          CloudFormation::Bridge::Resources::ElastiCacheReplicaCluster.new,
       }
 
       attr_reader :registry

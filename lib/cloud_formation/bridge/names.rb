@@ -29,6 +29,15 @@ module CloudFormation
         DATA = 'Data'
       end
 
+      module ELASTI_CACHE
+        AVAILABLE = 'available'
+        CLUSTER_ID = 'ClusterId'
+        DESCRIPTION = 'Description'
+        NODE_URLS = 'NodeURLs'
+        REPLICA = 'replica'
+        REPLICATION_GROUP_ID = 'ReplicationGroupId'
+      end
+
     end
   end
 end

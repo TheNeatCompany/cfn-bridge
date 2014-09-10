@@ -1,0 +1,14 @@
+{ "LogicalResourceId": "RedisClusterReplicationGroup",
+  "RequestId": "b2fcc8a6-3f25-4e91-8aad-8d0b2f62e352",
+  "RequestType": "Create",
+  "ResourceProperties": {
+    "ClusterId": "cluster-id-here",
+    "Description": "Sample replication group for the redis instances",
+    "ReplicationGroupId": "dev-redis-rep",
+    "ServiceToken": "arn:aws:sns:us-east-1:12345567:test-stack-sns"
+  },
+  "ResourceType": "Custom::ElastiCacheReplicationGroup",
+  "ResponseURL": "https://cloudformation-custom-resource-response-useast1.s3.amazonaws.com/arn%3Aaws%3Acloudformation%3Aus-east-1%3A04%3Astack/replica-cluster/1a98e2b0-390e-11e4-a5f9-50e2416294e0%7CRedisClusterReplicationGroup%7Cb2fcc8a6-3f25-4e91-8aad-8d0b2f62e352",
+  "StackId": "arn:aws:cloudformation:us-east-1:12345567:stack/mauricio-replica-cluster/1a98e2b0-390e-11e4-a5f9-50e2416294e0",
+  "TopicArn": "arn:aws:sns:us-east-1:12345567:test-stack-sns"
+}
