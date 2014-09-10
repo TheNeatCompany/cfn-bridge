@@ -2,7 +2,7 @@ require 'cloud_formation/bridge/exception_notifier'
 require 'cloud_formation/bridge/names'
 require 'cloud_formation/bridge/resources/subscribe_queue_to_topic'
 require 'cloud_formation/bridge/resources/cloud_formation_outputs'
-require 'cloud_formation/bridge/resources/create_redis_replication'
+require 'cloud_formation/bridge/resources/create_elasti_cache_replication'
 
 module CloudFormation
   module Bridge
@@ -15,8 +15,8 @@ module CloudFormation
           CloudFormation::Bridge::Resources::SubscribeQueueToTopic.new,
         "Custom::CloudFormationOutputs" =>
           CloudFormation::Bridge::Resources::CloudFormationOutputs.new,
-        "Custom::CreateRedisReplication" =>
-          CloudFormation::Bridge::Resources::CreateRedisReplication.new,
+        "Custom::ElastiCacheReplicationGroup" =>
+          CloudFormation::Bridge::Resources::CreateElastiCacheReplication.new,
       }
 
       attr_reader :registry
@@ -43,7 +43,7 @@ module CloudFormation
           end
         rescue Exception => ex
           ExceptionNotifier.report_exception(ex, request.request)
-          request.fail!(ex.message)
+          request.fail!("#{ex.class.name} - #{ex.message}")
         end
 
       end

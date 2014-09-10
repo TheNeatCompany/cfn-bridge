@@ -1,0 +1,66 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "AWS CloudFormation template for standing a redis cluster.",
+
+  "Parameters": {
+    "EntryTopic": {
+      "Description": "SNS topic that will be used no notify custom resource creation",
+      "Type": "String",
+      "Default": "arn:aws:sns:us-east-1:047170177871:mauricio-test-stack-CustomResourcesTopic-NC3ZXJ5OWL02"
+    }
+  },
+
+  "Resources": {
+    "RedisCluster": {
+      "Type": "AWS::ElastiCache::CacheCluster",
+      "Properties": {
+        "CacheNodeType": "cache.t1.micro",
+        "CacheSecurityGroupNames": [
+          {
+            "Ref": "RedisClusterSecurityGroup"
+          }
+        ],
+        "Engine": "redis",
+        "NumCacheNodes": 1
+      }
+    },
+    "RedisClusterSecurityGroup": {
+      "Type": "AWS::ElastiCache::SecurityGroup",
+      "Properties": {
+        "Description": "Lock the cluster down"
+      }
+    },
+    "RedisClusterReplicationGroup": {
+      "Type": "Custom::ElastiCacheReplicationGroup",
+      "Properties": {
+        "ServiceToken": {
+          "Ref": "EntryTopic"
+        },
+        "ClusterId": {
+          "Ref": "RedisCluster"
+        },
+        "ReplicasCount": 1,
+        "Description": "Sample replication group for the redis instances"
+      }
+    }
+  },
+
+  "Outputs": {
+    "ClusterId": {
+      "Value": {
+        "Ref": "RedisCluster"
+      }
+    },
+    "ClusterRegion": {
+      "Value": {
+        "Ref": "AWS::Region"
+      }
+    },
+    "ReplicaURLs": {
+      "Value": {
+        "Fn::GetAtt": ["RedisClusterReplicationGroup", "Topic"]
+      }
+    }
+  }
+
+}

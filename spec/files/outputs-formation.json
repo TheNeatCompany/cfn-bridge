@@ -8,10 +8,6 @@
             "Description": "SNS topic that will be used",
             "Type": "String"
         },
-        "EntryQueue": {
-            "Description": "The queue to be polled",
-            "Type": "String"
-        },
         "Name": {
             "Description": "The CFN name to be loaded",
             "Type": "String"
