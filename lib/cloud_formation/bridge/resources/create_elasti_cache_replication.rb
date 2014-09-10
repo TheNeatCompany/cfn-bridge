@@ -131,7 +131,7 @@ module CloudFormation
             replica_ids.all? do |cluster_id|
               cluster = find_cluster(cluster_id)
               Util.logger.info("Cluster info is #{cluster.inspect}")
-              cluster[:cache_nodes][0][:status] == AVAILABLE
+              cluster[:cache_cluster_status] == AVAILABLE
             end
           end
 
