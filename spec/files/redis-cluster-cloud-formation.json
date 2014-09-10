@@ -27,7 +27,7 @@
   "Outputs": {
     "ReplicaURLs": {
       "Value": {
-        "Fn::GetAtt": ["RedisClusterReplicationGroup", "Topic"]
+        "Fn::GetAtt": ["RedisClusterReplicationGroup", "NodeURLs"]
       }
     }
   }
