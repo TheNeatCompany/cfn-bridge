@@ -26,7 +26,7 @@ module CloudFormation
           require_fields(request, REQUIRED_FIELDS)
 
           cluster_id = request.resource_properties[CLUSTER_ID]
-          replication_id = CreateElastiCacheReplication.produce_id_from("rg-#{request.logical_resource_id}")
+          replication_id = self.class.produce_id_from("rg-#{request.logical_resource_id}")
 
           client.create_replication_group(
             replication_group_id: replication_id,
@@ -48,7 +48,6 @@ module CloudFormation
         def update(request)
           require_fields(request, REQUIRED_FIELDS)
 
-          cluster_id = request.resource_properties[CLUSTER_ID]
           primary_data = find_cluster(request.resource_properties[CLUSTER_ID])
           replicas = find_replicas(primary_data[:replication_group_id])
 
@@ -111,7 +110,7 @@ module CloudFormation
         def produce_response(replication_id)
           replicas = find_replicas(replication_id)
 
-          node_urls = replicas.mao do |replica|
+          node_urls = replicas.map do |replica|
             "#{replica[:read_endpoint][:address]}:#{replica[:read_endpoint][:port]}"
           end.join(",")
 
@@ -125,7 +124,7 @@ module CloudFormation
 
         def create_cluster(replication_id, replicas_count, base_name)
           replica_ids = (1..replicas_count).map do
-            replica_cluster_id = CreateElastiCacheReplication.produce_id_from(base_name)
+            replica_cluster_id = self.class.produce_id_from(base_name)
             client.create_cache_cluster(cache_cluster_id: replica_cluster_id, replication_group_id: replication_id)
             replica_cluster_id
           end
@@ -151,7 +150,7 @@ module CloudFormation
             replication_group_id: replication_group_id
           ).data[:replication_groups][0]
 
-          CreateElastiCacheReplication.filter_replicas(replication_data)
+          self.class.filter_replicas(replication_data)
         end
 
         def replication_group_available?(replication_group_id)
