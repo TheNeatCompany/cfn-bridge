@@ -17,16 +17,33 @@
           "Ref": "EntryTopic"
         },
         "ClusterId": "cluster-id-here",
-        "ReplicationGroupId" : "dev-redis-rep",
+        "ReplicationGroupId": "dev-redis-rep-group",
         "Description": "Sample replication group for the redis instances"
+      }
+    },
+    "RedisReplicaCluster": {
+      "Type": "Custom::ElastiCacheReplicaCluster",
+      "Properties": {
+        "ServiceToken": {
+          "Ref": "EntryTopic"
+        },
+        "ReplicaClusterId": "dev-redis-replica",
+        "ReplicationGroupId": {
+          "Fn::GetAtt": ["RedisClusterReplicationGroup", "ReplicationGroupId"]
+        }
       }
     }
   },
 
   "Outputs": {
-    "ReplicaURLs": {
+    "ReplicationGroupId": {
       "Value": {
         "Fn::GetAtt": ["RedisClusterReplicationGroup", "ReplicationGroupId"]
+      }
+    },
+    "ReplicaClusterURLs": {
+      "Value": {
+        "Fn::GetAtt": [ "RedisReplicaCluster", "NodeURLs" ]
       }
     }
   }

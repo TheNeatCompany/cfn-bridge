@@ -16,7 +16,7 @@ module CloudFormation
           client.describe_cache_clusters(
             cache_cluster_id: cluster_id,
             show_cache_node_info: true
-          ).data[:cache_clusters][0]
+          )[:cache_clusters][0]
         end
 
         def client

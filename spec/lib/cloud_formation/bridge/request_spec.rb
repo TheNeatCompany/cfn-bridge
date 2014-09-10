@@ -63,11 +63,11 @@ describe CloudFormation::Bridge::Request do
       response = request.build_response
 
       expect(response).to include(
-        FIELDS::STATUS => RESULTS::SUCCESS,
-        FIELDS::STACK_ID => request.stack_id,
-        FIELDS::REQUEST_ID => request.request_id,
-        FIELDS::LOGICAL_RESOURCE_ID => request.logical_resource_id,
-      )
+                            FIELDS::STATUS => RESULTS::SUCCESS,
+                            FIELDS::STACK_ID => request.stack_id,
+                            FIELDS::REQUEST_ID => request.request_id,
+                            FIELDS::LOGICAL_RESOURCE_ID => request.logical_resource_id,
+                          )
 
       expect(response[FIELDS::PHYSICAL_RESOURCE_ID]).not_to be_empty
     end
@@ -100,6 +100,18 @@ describe CloudFormation::Bridge::Request do
       expect(CloudFormation::Bridge::HttpBridge).to receive(:put).with(request.request_url, request.build_response(base))
 
       request.succeed!(base)
+    end
+
+    it "ignores the provided response if it is not a hash" do
+      expect(CloudFormation::Bridge::HttpBridge).to receive(:put) do |url, options|
+        expect(url).to eq(request.request_url)
+
+        expected_response = request.build_response
+        expected_response.delete(FIELDS::PHYSICAL_RESOURCE_ID)
+
+        expect(options).to include(expected_response)
+      end
+      request.succeed!(true)
     end
 
   end

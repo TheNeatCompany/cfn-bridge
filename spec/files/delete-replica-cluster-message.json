@@ -1,0 +1,14 @@
+{ "LogicalResourceId": "RedisReplicaCluster",
+  "PhysicalResourceId": "dev-redis-rep-group",
+  "RequestId": "ebaf8396-72f3-43b1-b58f-a808d952e688",
+  "RequestType": "Delete",
+  "ResourceProperties": {
+    "ReplicaClusterId": "dev-redis-replica",
+    "ReplicationGroupId": "dev-redis-rep-group",
+    "ServiceToken": "arn:aws:sns:us-east-1:123456:sns-topic"
+  },
+  "ResourceType": "Custom::ElastiCacheReplicaCluster",
+  "ResponseURL": "https://cloudformation-custom-resource-response-useast1.s3.amazonaws.com/arn%3Aaws%3Acloudformation%3Aus-east-1%3A047170177871%3Astack/sample-replica-cluster/ce7bd340-393c-11e4-962c-50fa1dbb2c64%7CRedisReplicaCluster%7Cebaf8396-72f3-43b1-b58f-a808d952e688",
+  "StackId": "arn:aws:cloudformation:us-east-1:123456:stack/sample-replica-cluster/ce7bd340-393c-11e4-962c-50fa1dbb2c64",
+  "TopicArn": "arn:aws:sns:us-east-1:123456:sns-topic"
+}

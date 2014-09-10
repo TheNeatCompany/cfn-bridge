@@ -3,7 +3,7 @@
     {
       "cache_security_groups": [
         {
-          "cache_security_group_name": "redis-redis-srkbp24vmwfr",
+          "cache_security_group_name": "redis-group",
           "status": "active"
         }
       ],
@@ -16,14 +16,14 @@
           "customer_availability_zone": "us-east-1a",
           "endpoint": {
             "port": 6379,
-            "address": "rn-redisclu-a7392cba.mzufvw.0001.use1.cache.amazonaws.com"
+            "address": "dev-redis-replica.mzufvw.0001.use1.cache.amazonaws.com"
           }
         }
       ],
       "security_groups": [
 
       ],
-      "cache_cluster_id": "rn-redisclu-a7392cba",
+      "cache_cluster_id": "dev-redis-replica",
       "cache_parameter_group": {
         "cache_node_ids_to_reboot": [
 
@@ -32,7 +32,7 @@
         "parameter_apply_status": "in-sync"
       },
       "cache_cluster_status": "available",
-      "replication_group_id": "rg-redisclu-2ffb4776",
+      "replication_group_id": "dev-redis-rep-group",
       "cache_node_type": "cache.m1.small",
       "engine": "redis",
       "pending_modified_values": {
