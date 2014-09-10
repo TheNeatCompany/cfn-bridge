@@ -1,4 +1,6 @@
+require 'timeout'
 require 'cloud_formation/bridge/names'
+require 'cloud_formation/bridge/util'
 
 module CloudFormation
   module Bridge
@@ -21,7 +23,16 @@ module CloudFormation
 
         def update(request)
           raise CloudFormation::Bridge::OperationNotImplementedError.new(
-            "The resource #{self.class.name} does not implement the update operation - #{request.inspect}")
+                  "The resource #{self.class.name} does not implement the update operation - #{request.inspect}")
+        end
+
+        def wait_until(description, seconds = 5, max_wait = 600, &block)
+          Timeout.timeout(max_wait) do
+            while !block.call
+              Util.logger.info("Waiting for #{description}")
+              sleep(seconds)
+            end
+          end
         end
 
       end

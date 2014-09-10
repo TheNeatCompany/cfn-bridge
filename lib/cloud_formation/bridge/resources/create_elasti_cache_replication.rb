@@ -1,6 +1,7 @@
 require 'securerandom'
 require 'aws/elasticache'
 require 'cloud_formation/bridge/resources/base'
+require 'cloud_formation/bridge/util'
 
 module CloudFormation
   module Bridge
@@ -13,14 +14,9 @@ module CloudFormation
         DESCRIPTION = 'Description'
 
         REPLICA = 'replica'
+        AVAILABLE = 'available'
 
         BASE_ATTRIBUTES = [
-          :auto_minor_version_upgrade,
-          :cache_node_type,
-          :engine,
-          :engine_version,
-          :preferred_availability_zone,
-          :preferred_maintenance_window,
         ]
 
         REQUIRED_FIELDS = [
@@ -34,7 +30,6 @@ module CloudFormation
 
           cluster_id = request.resource_properties[CLUSTER_ID]
           replication_id = CreateElastiCacheReplication.produce_id_from("rg-#{request.logical_resource_id}")
-          primary_data = find_primary(cluster_id)
 
           client.create_replication_group(
             replication_group_id: replication_id,
@@ -42,11 +37,18 @@ module CloudFormation
             replication_group_description: request.resource_properties[DESCRIPTION],
           )
 
+          wait_until("replication group #{replication_id} to be available") do
+            replication_group_available?(replication_id)
+          end
+
           replicas_count = request.resource_properties[REPLICAS_COUNT].to_i
 
-          replicas = create_cluster(primary_data, replication_id, replicas_count, "rn-#{request.logical_resource_id}")
+          replicas = create_cluster(replication_id, replicas_count, "rn-#{request.logical_resource_id}")
+
+          Util.logger.info("replicated cluster data is #{replicas.inspect}")
+
           node_urls = replicas.map do |replica|
-            "#{replica[:configuration_endpoint][:address]}:#{replica[:configuration_endpoint][:port]}"
+            "#{replica[:endpoint][:address]}:#{replica[:endpoint][:port]}"
           end.join(",")
 
           {
@@ -61,7 +63,7 @@ module CloudFormation
           require_fields(request, REQUIRED_FIELDS)
 
           cluster_id = request.resource_properties[CLUSTER_ID]
-          primary_data = find_primary(request.resource_properties[CLUSTER_ID])
+          primary_data = find_cluster(request.resource_properties[CLUSTER_ID])
           replicas = find_replicas(primary_data[:replication_group_id])
 
           real_count = replicas.size
@@ -70,7 +72,7 @@ module CloudFormation
           difference = new_count - real_count
 
           if difference > 0
-            create_cluster(primary_data, primary_data[:replication_group_id], difference, "rn-#{request.logical_resource_id}")
+            create_cluster(primary_data[:replication_group_id], difference, "rn-#{request.logical_resource_id}")
           elsif difference < 0
             (difference...0).each do |index|
               client.delete_cache_cluster(cache_cluster_id: replicas[index][:cache_cluster_id])
@@ -95,11 +97,17 @@ module CloudFormation
           require_fields(request, [CLUSTER_ID])
 
           begin
-            primary_data = find_primary(request.resource_properties[CLUSTER_ID])
+            primary_data = find_cluster(request.resource_properties[CLUSTER_ID])
+            replication_id = primary_data[:replication_group_id]
 
-            if primary_data[:replication_group_id]
+            if replication_id
+
+              wait_until("replication group #{replication_id} to be available") do
+                replication_group_available?(replication_id)
+              end
+
               client.delete_replication_group(
-                replication_group_id: primary_data[:replication_group_id],
+                replication_group_id: replication_id,
                 retain_primary_cluster: true,
               )
             end
@@ -112,16 +120,27 @@ module CloudFormation
           @client ||= AWS::ElastiCache.new.client
         end
 
-        def create_cluster(primary_data, replication_id, replicas_count, base_name)
-          base_attributes = CreateElastiCacheReplication.produce_base_attributes(primary_data, replication_id)
-
-          (1..replicas_count).map do
+        def create_cluster(replication_id, replicas_count, base_name)
+          replica_ids = (1..replicas_count).map do
             replica_cluster_id = CreateElastiCacheReplication.produce_id_from(base_name)
-            client.create_cache_cluster(base_attributes.merge(cache_cluster_id: replica_cluster_id)).data
+            client.create_cache_cluster(cache_cluster_id: replica_cluster_id, replication_group_id: replication_id)
+            replica_cluster_id
+          end
+
+          wait_until("replicas #{replica_ids.inspect} to be available") do
+            replica_ids.all? do |cluster_id|
+              cluster = find_cluster(cluster_id)
+              Util.logger.info("Cluster info is #{cluster.inspect}")
+              cluster[:cache_nodes][0][:status] == AVAILABLE
+            end
+          end
+
+          replica_ids.map do |cluster_id|
+            find_cluster(cluster_id)[:cache_clusters][0][:cache_nodes][0]
           end
         end
 
-        def find_primary(cluster_id)
+        def find_cluster(cluster_id)
           client.describe_cache_clusters(
             cache_cluster_id: cluster_id,
             show_cache_node_info: true
@@ -136,6 +155,11 @@ module CloudFormation
           CreateElastiCacheReplication.filter_replicas(replication_data)
         end
 
+        def replication_group_available?(replication_group_id)
+          replication_group = client.describe_replication_groups(replication_group_id: replication_group_id)[:replication_groups][0]
+          replication_group[:status] == AVAILABLE
+        end
+
         class << self
 
           def filter_replicas(replication_data)
@@ -145,18 +169,6 @@ module CloudFormation
               end
               acc
             end
-          end
-
-          def produce_base_attributes(primary_data, replication_id)
-            base_attributes = BASE_ATTRIBUTES.inject({}) do |acc, attribute|
-              acc[attribute] = primary_data[attribute] if primary_data[attribute]
-              acc
-            end
-
-            base_attributes[:cache_security_group_names] = primary_data[:cache_security_groups].map { |e| e[:cache_security_group_name] }
-            base_attributes[:replication_group_id] = replication_id
-
-            base_attributes
           end
 
           def produce_id_from(base, base_size = 12)
