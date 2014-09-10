@@ -7,7 +7,7 @@ module CloudFormation
   module Bridge
     module Resources
 
-      class CreateElastiCacheReplication < Base
+      class CreateElastiCacheRedisReplication < Base
 
         CLUSTER_ID = 'ClusterId'
         REPLICAS_COUNT = 'ReplicasCount'
@@ -15,9 +15,6 @@ module CloudFormation
 
         REPLICA = 'replica'
         AVAILABLE = 'available'
-
-        BASE_ATTRIBUTES = [
-        ]
 
         REQUIRED_FIELDS = [
           CLUSTER_ID,
@@ -43,20 +40,9 @@ module CloudFormation
 
           replicas_count = request.resource_properties[REPLICAS_COUNT].to_i
 
-          replicas = create_cluster(replication_id, replicas_count, "rn-#{request.logical_resource_id}")
+          create_cluster(replication_id, replicas_count, "rn-#{request.logical_resource_id}")
 
-          Util.logger.info("replicated cluster data is #{replicas.inspect}")
-
-          node_urls = replicas.map do |replica|
-            "#{replica[:configuration_endpoint][:address]}:#{replica[:configuration_endpoint][:port]}"
-          end.join(",")
-
-          {
-            FIELDS::DATA => {
-              'NodeURLs' => node_urls,
-            },
-            FIELDS::PHYSICAL_RESOURCE_ID => replication_id,
-          }
+          produce_response(replication_id)
         end
 
         def update(request)
@@ -74,23 +60,25 @@ module CloudFormation
           if difference > 0
             create_cluster(primary_data[:replication_group_id], difference, "rn-#{request.logical_resource_id}")
           elsif difference < 0
-            (difference...0).each do |index|
+            deleted_ids = (difference...0).map do |index|
               client.delete_cache_cluster(cache_cluster_id: replicas[index][:cache_cluster_id])
+              replicas[index][:cache_cluster_id]
             end
+
+            wait_until("deleting clusters #{deleted_ids.inspect}") do
+              deleted_ids.all? do |cluster_id|
+                begin
+                  find_cluster(cluster_id)
+                  false
+                rescue AWS::ElastiCache::Errors::CacheClusterNotFound
+                  true
+                end
+              end
+            end
+
           end
 
-          replicas = find_replicas(primary_data[:replication_group_id])
-
-          node_urls = replicas.mao do |replica|
-            "#{replica[:read_endpoint][:address]}:#{replica[:read_endpoint][:port]}"
-          end.join(",")
-
-          {
-            FIELDS::DATA => {
-              'NodeURLs' => node_urls,
-            },
-            FIELDS::PHYSICAL_RESOURCE_ID => cluster_id,
-          }
+          produce_response(primary_data[:replication_group_id])
         end
 
         def delete(request)
@@ -120,6 +108,21 @@ module CloudFormation
           @client ||= AWS::ElastiCache.new.client
         end
 
+        def produce_response(replication_id)
+          replicas = find_replicas(replication_id)
+
+          node_urls = replicas.mao do |replica|
+            "#{replica[:read_endpoint][:address]}:#{replica[:read_endpoint][:port]}"
+          end.join(",")
+
+          {
+            FIELDS::DATA => {
+              'NodeURLs' => node_urls,
+            },
+            FIELDS::PHYSICAL_RESOURCE_ID => replication_id,
+          }
+        end
+
         def create_cluster(replication_id, replicas_count, base_name)
           replica_ids = (1..replicas_count).map do
             replica_cluster_id = CreateElastiCacheReplication.produce_id_from(base_name)
@@ -133,10 +136,6 @@ module CloudFormation
               Util.logger.info("Cluster info is #{cluster.inspect}")
               cluster[:cache_cluster_status] == AVAILABLE
             end
-          end
-
-          replica_ids.map do |cluster_id|
-            find_cluster(cluster_id)
           end
         end
 

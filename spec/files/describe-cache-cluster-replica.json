@@ -1,0 +1,46 @@
+{
+  "cache_clusters": [
+    {
+      "cache_security_groups": [
+        {
+          "cache_security_group_name": "redis-redis-srkbp24vmwfr",
+          "status": "active"
+        }
+      ],
+      "cache_nodes": [
+
+      ],
+      "security_groups": [
+
+      ],
+      "cache_cluster_id": "rn-redisclu-a7392cba",
+      "cache_parameter_group": {
+        "cache_node_ids_to_reboot": [
+
+        ],
+        "parameter_apply_status": "in-sync",
+        "cache_parameter_group_name": "default.redis2.8"
+      },
+      "cache_cluster_status": "creating",
+      "replication_group_id": "rg-redisclu-2ffb4776",
+      "cache_node_type": "cache.m1.small",
+      "engine": "redis",
+      "pending_modified_values": {
+        "cache_node_ids_to_remove": [
+
+        ]
+      },
+      "preferred_availability_zone": "us-east-1a",
+      "engine_version": "2.8.6",
+      "auto_minor_version_upgrade": true,
+      "preferred_maintenance_window": "thu:10:00-thu:11:00",
+      "client_download_landing_page": "https://console.aws.amazon.com/elasticache/home#client-download:",
+      "snapshot_retention_limit": 0,
+      "num_cache_nodes": 1,
+      "snapshot_window": "09:00-10:00"
+    }
+  ],
+  "response_metadata": {
+    "request_id": "3d98e0e9-3891-11e4-8fa2-cfebce712279"
+  }
+}

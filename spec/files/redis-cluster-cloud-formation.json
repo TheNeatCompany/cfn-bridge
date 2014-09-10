@@ -12,7 +12,7 @@
 
   "Resources": {
     "RedisClusterReplicationGroup": {
-      "Type": "Custom::ElastiCacheReplicationGroup",
+      "Type": "Custom::ElastiCacheRedisReplicationGroup",
       "Properties": {
         "ServiceToken": {
           "Ref": "EntryTopic"

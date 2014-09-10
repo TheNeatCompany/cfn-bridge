@@ -1,0 +1,39 @@
+{
+  "replication_groups": [
+    {
+      "member_clusters": [
+        "red-re-1uptio9f2ytdi",
+        "rn-redisclu-a7392cba"
+      ],
+      "node_groups": [
+        {
+          "node_group_members": [
+            {
+              "cache_cluster_id": "red-re-1uptio9f2ytdi",
+              "read_endpoint": {
+                "port": 6379,
+                "address": "red-re-1uptio9f2ytdi.mzufvw.0001.use1.cache.amazonaws.com"
+              },
+              "preferred_availability_zone": "us-east-1c",
+              "cache_node_id": "0001",
+              "current_role": "primary"
+            }
+          ],
+          "node_group_id": "0001",
+          "primary_endpoint": {
+            "port": 6379,
+            "address": "rg-redisclu-2ffb4776.mzufvw.ng.0001.use1.cache.amazonaws.com"
+          },
+          "status": "available"
+        }
+      ],
+      "replication_group_id": "rg-redisclu-2ffb4776",
+      "status": "available",
+      "pending_modified_values": null,
+      "description": "Sample replication group for the redis instances"
+    }
+  ],
+  "response_metadata": {
+    "request_id": "a4a0eaab-3891-11e4-8cb6-9f87081a8ee3"
+  }
+}
