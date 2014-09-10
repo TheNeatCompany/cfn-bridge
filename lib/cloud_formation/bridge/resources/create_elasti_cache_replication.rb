@@ -48,7 +48,7 @@ module CloudFormation
           Util.logger.info("replicated cluster data is #{replicas.inspect}")
 
           node_urls = replicas.map do |replica|
-            "#{replica[:endpoint][:address]}:#{replica[:endpoint][:port]}"
+            "#{replica[:configuration_endpoint][:address]}:#{replica[:configuration_endpoint][:port]}"
           end.join(",")
 
           {
@@ -136,7 +136,7 @@ module CloudFormation
           end
 
           replica_ids.map do |cluster_id|
-            find_cluster(cluster_id)[:cache_clusters][0][:cache_nodes][0]
+            find_cluster(cluster_id)
           end
         end
 
