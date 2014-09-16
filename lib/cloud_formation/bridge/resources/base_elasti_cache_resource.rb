@@ -1,9 +1,12 @@
+require 'aws/elasticache'
 require 'cloud_formation/bridge/names'
 
 module CloudFormation
   module Bridge
     module Resources
       module BaseElastiCacheResource
+
+        UnknownCacheEngineError = Class.new(StandardError)
 
         include CloudFormation::Bridge::Names
 
@@ -17,6 +20,32 @@ module CloudFormation
             cache_cluster_id: cluster_id,
             show_cache_node_info: true
           )[:cache_clusters][0]
+        end
+
+        def node_urls(cluster_id)
+          cluster = client.describe_cache_clusters(
+            cache_cluster_id: cluster_id,
+            show_cache_node_info: true
+          )[:cache_clusters][0]
+
+          case cluster[:engine]
+            when 'redis'
+              cluster[:cache_nodes].map do |node|
+                "#{node[:endpoint][:address]}:#{node[:endpoint][:port]}"
+              end.join(",")
+            when 'memcached'
+              "#{cluster[:configuration_endpoint][:address]}:#{cluster[:configuration_endpoint][:port]}"
+            else
+              UnknownCacheEngineError.new("Don't know what to do with cache engine #{cluster[:engine]} - #{cluster.inspect}")
+          end
+        end
+
+        def wait_until_cluster_is_available(cluster_id)
+          wait_until("replica #{cluster_id} to be available") do
+            cluster = find_cluster(cluster_id)
+            Util.logger.info("Cluster info is #{cluster.inspect}")
+            cluster[:cache_cluster_status] == ELASTI_CACHE::AVAILABLE
+          end
         end
 
         def client

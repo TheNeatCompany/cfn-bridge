@@ -54,7 +54,7 @@ describe CloudFormation::Bridge::Executor do
       message = "This should not have been called"
       expect(custom_resource).to receive(:create).and_raise(ArgumentError.new(message))
 
-      expect(request).to receive(:fail!).with(message)
+      expect(request).to receive(:fail!).with("ArgumentError - #{message}")
 
       executor = CloudFormation::Bridge::Executor.new(registry)
       executor.execute(request)

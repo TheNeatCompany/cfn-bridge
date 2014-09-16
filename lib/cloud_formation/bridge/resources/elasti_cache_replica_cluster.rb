@@ -25,14 +25,10 @@ module CloudFormation
 
           wait_until_cluster_is_available(cluster_id)
 
-          node_urls = find_cluster(cluster_id)[:cache_nodes].map do |node|
-            "#{node[:endpoint][:address]}:#{node[:endpoint][:port]}"
-          end
-
           {
             FIELDS::DATA => {
               ELASTI_CACHE::REPLICA_CLUSTER_ID => cluster_id,
-              ELASTI_CACHE::NODE_URLS => node_urls.join(","),
+              ELASTI_CACHE::NODE_URLS => node_urls(cluster_id),
             },
             FIELDS::PHYSICAL_RESOURCE_ID => cluster_id,
           }
@@ -60,14 +56,6 @@ module CloudFormation
           rescue AWS::ElastiCache::Errors::CacheClusterNotFound
             # no cache cluster? ignore
             Util.logger.info("Could not find cache cluster for #{cluster_id}, ignoring")
-          end
-        end
-
-        def wait_until_cluster_is_available(cluster_id)
-          wait_until("replica #{cluster_id} to be available") do
-            cluster = find_cluster(cluster_id)
-            Util.logger.info("Cluster info is #{cluster.inspect}")
-            cluster[:cache_cluster_status] == ELASTI_CACHE::AVAILABLE
           end
         end
 

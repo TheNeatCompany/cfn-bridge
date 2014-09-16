@@ -18,6 +18,17 @@
             "port": 6379,
             "address": "dev-redis-replica.mzufvw.0001.use1.cache.amazonaws.com"
           }
+        },
+        {
+          "parameter_group_status": "in-sync",
+          "cache_node_status": "available",
+          "cache_node_create_time": "2014-09-10 02:25:13 UTC",
+          "cache_node_id": "0001",
+          "customer_availability_zone": "us-east-1a",
+          "endpoint": {
+            "port": 6379,
+            "address": "dev-redis-replica.mzufvw.0002.use1.cache.amazonaws.com"
+          }
         }
       ],
       "security_groups": [

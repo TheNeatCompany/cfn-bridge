@@ -30,7 +30,7 @@ describe CloudFormation::Bridge::Resources::ElastiCacheReplicaCluster do
                            {
                              FIELDS::DATA => {
                                ELASTI_CACHE::REPLICA_CLUSTER_ID => replica_cluster_id,
-                               ELASTI_CACHE::NODE_URLS => "dev-redis-replica.mzufvw.0001.use1.cache.amazonaws.com:6379",
+                               ELASTI_CACHE::NODE_URLS => "dev-redis-replica.mzufvw.0001.use1.cache.amazonaws.com:6379,dev-redis-replica.mzufvw.0002.use1.cache.amazonaws.com:6379",
                              },
                              FIELDS::PHYSICAL_RESOURCE_ID => replica_cluster_id,
                            }

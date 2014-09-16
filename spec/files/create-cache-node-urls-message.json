@@ -1,0 +1,12 @@
+{ "LogicalResourceId": "ReplicaClusterNodeUrls",
+  "RequestId": "f9103cf1-5e1a-4597-a233-5838a7528126",
+  "RequestType": "Create",
+  "ResourceProperties": {
+    "ClusterId": "samplecache",
+    "ServiceToken": "arn:aws:sns:us-east-1:123456:sns-topic"
+  },
+  "ResourceType": "Custom::ElastiCacheNodeURLs",
+  "ResponseURL": "https://cloudformation-custom-resource-response-useast1.s3.amazonaws.com/arn%3Aaws%3Acloudformation%3Aus-east-1%3A123456%3Astack/sample-replica-cluster/ce7bd340-393c-11e4-962c-50fa1dbb2c64%7CRedisReplicaCluster%7Cf9103cf1-5e1a-4597-a233-5838a7528126",
+  "StackId": "arn:aws:cloudformation:us-east-1:123456:stack/sample-replica-cluster/ce7bd340-393c-11e4-962c-50fa1dbb2c64",
+  "TopicArn": "arn:aws:sns:us-east-1:123456:sns-topic"
+}

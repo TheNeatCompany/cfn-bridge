@@ -13,6 +13,9 @@
 	- [Current custom resources](#current-custom-resources)
 		- [Custom::SubscribeSQSQueueToSNSTopic](#customsubscribesqsqueuetosnstopic)
 		- [Custom::CloudFormationOutputs](#customcloudformationoutputs)
+		- [Custom::Custom::ElastiCacheReplicationGroup](#customcustomelasticachereplicationgroup)
+		- [Custom::ElastiCacheReplicaCluster](#customelasticachereplicacluster)
+		- [Custom::ElastiCacheNodeURLs](#customelasticachenodeurls)
 	- [Contributing](#contributing)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -219,6 +222,47 @@ Makes all outputs from another cloud formation available to `Fn::GetAtt` calls.
 Parameters:
 
 * `Name` - the name of the cloud formation you want to get the outputs from - *required*;
+
+
+### Custom::Custom::ElastiCacheReplicationGroup
+
+Creates an `ElastiCache` replication group from an already available cache cluster (that will be configured as the primary).
+
+Parameters:
+
+* `ClusterId` - the name of the primary ElastiCache cluster for this replication group;
+* `ReplicationGroupId` - the name of this replication group - this field follows the same `ElastiCache` naming requirements, 20 alphanumeric characters or `-`;
+* `Description` - the group description;
+
+Produced `Fn::GetAtt` values:
+
+* `ReplicationGroupId` - the replication group id;
+
+### Custom::ElastiCacheReplicaCluster
+
+Creates an `ElastiCache` replica cluster for an already existing replication group.
+
+Parameters:
+
+* `ReplicationGroupId` - the id of the replication group where this replica cluster will register itself;
+* `ReplicaClusterId` - the id for this replication group;
+
+Produced `Fn::GetAtt` values:
+
+* `ReplicaClusterId` - the id of this replica cluster;
+* `NodeURLs` - list of `host:port` values (separated by `,`) for the nodes in the cluster if it is a redis cluster or the configuration URL for a memcached cluster;
+
+### Custom::ElastiCacheNodeURLs
+
+Produces pairs of `host:port` separated by `,` for all nodes in the cluster if it's a Redis cluster or the configuration `host:port` if it is a Memcached cluster.
+
+Parameters:
+
+* `ClusterId` - the name of the primary ElastiCache cluster for this replication group;
+
+Produced `Fn::GetAtt` values:
+
+* `NodeURLs` - list of `host:port` values (separated by `,`) for the nodes in the cluster if it is a Redis cluster or the configuration `host:port` for a Memcached cluster;
 
 ## Contributing
 

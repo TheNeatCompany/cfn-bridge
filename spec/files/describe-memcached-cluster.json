@@ -1,0 +1,73 @@
+{ "cache_clusters": [
+  {
+    "auto_minor_version_upgrade": true,
+    "cache_cluster_create_time": "2013-05-28 07:42:19 UTC",
+    "cache_cluster_id": "somecache",
+    "cache_cluster_status": "available",
+    "cache_node_type": "cache.t1.micro",
+    "cache_nodes": [
+      {
+        "cache_node_create_time": "2013-05-28 07:42:19 UTC",
+        "cache_node_id": "0001",
+        "cache_node_status": "available",
+        "customer_availability_zone": "us-east-1a",
+        "endpoint": {
+          "address": "somecache.tgbhomz.0001.use1.cache.amazonaws.com",
+          "port": 11211
+        },
+        "parameter_group_status": "in-sync"
+      },
+      {
+        "cache_node_create_time": "2013-05-28 07:42:19 UTC",
+        "cache_node_id": "0002",
+        "cache_node_status": "available",
+        "customer_availability_zone": "us-east-1a",
+        "endpoint": {
+          "address": "somecache.tgbhomz.0002.use1.cache.amazonaws.com",
+          "port": 11211
+        },
+        "parameter_group_status": "in-sync"
+      },
+      {
+        "cache_node_create_time": "2013-05-28 07:42:19 UTC",
+        "cache_node_id": "0003",
+        "cache_node_status": "available",
+        "customer_availability_zone": "us-east-1a",
+        "endpoint": {
+          "address": "somecache.tgbhomz.0003.use1.cache.amazonaws.com",
+          "port": 11211
+        },
+        "parameter_group_status": "in-sync"
+      }
+    ],
+    "cache_parameter_group": {
+      "cache_node_ids_to_reboot": [  ],
+      "cache_parameter_group_name": "default.memcached1.4",
+      "parameter_apply_status": "in-sync"
+    },
+    "cache_security_groups": [
+      {
+        "cache_security_group_name": "cache_security_group",
+        "status": "active"
+      }
+    ],
+    "client_download_landing_page": "https://console.aws.amazon.com/elasticache/home#client-download:",
+    "configuration_endpoint": {
+      "address": "somecache.tgbhomz.cfg.use1.cache.amazonaws.com",
+      "port": 11211
+    },
+    "engine": "memcached",
+    "engine_version": "1.4.14",
+    "num_cache_nodes": 3,
+    "pending_modified_values": {
+      "cache_node_ids_to_remove": [  ]
+    },
+    "preferred_availability_zone": "us-east-1a",
+    "preferred_maintenance_window": "sun:07:30-sun:08:30",
+    "security_groups": [  ]
+  }
+],
+  "response_metadata": {
+    "request_id": "585fd79c-3dd2-11e4-bf11-4b077bcebe02"
+  }
+}
