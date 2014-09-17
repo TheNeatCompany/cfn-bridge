@@ -73,7 +73,7 @@ module CloudFormation
         HttpBridge.put(request_url, response)
       end
 
-      def succeed!(response)
+      def succeed!(response = {})
         actual_response = case response
           when Hash
             build_response(response)

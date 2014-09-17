@@ -44,6 +44,8 @@ module CloudFormation
             end
 
             request.succeed!(response)
+          elsif request.delete?
+            request.succeed!
           else
             request.fail!("Don't know what to do with resource #{request.resource_type}")
           end
