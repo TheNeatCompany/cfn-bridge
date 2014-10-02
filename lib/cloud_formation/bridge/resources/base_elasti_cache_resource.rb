@@ -28,16 +28,9 @@ module CloudFormation
             show_cache_node_info: true
           )[:cache_clusters][0]
 
-          case cluster[:engine]
-            when 'redis'
-              cluster[:cache_nodes].map do |node|
-                "#{node[:endpoint][:address]}:#{node[:endpoint][:port]}"
-              end.join(",")
-            when 'memcached'
-              "#{cluster[:configuration_endpoint][:address]}:#{cluster[:configuration_endpoint][:port]}"
-            else
-              UnknownCacheEngineError.new("Don't know what to do with cache engine #{cluster[:engine]} - #{cluster.inspect}")
-          end
+          cluster[:cache_nodes].map do |node|
+            "#{node[:endpoint][:address]}:#{node[:endpoint][:port]}"
+          end.join(",")
         end
 
         def wait_until_cluster_is_available(cluster_id)

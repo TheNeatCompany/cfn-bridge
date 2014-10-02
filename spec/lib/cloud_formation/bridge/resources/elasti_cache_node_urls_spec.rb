@@ -26,7 +26,7 @@ describe CloudFormation::Bridge::Resources::ElastiCacheNodeUrls do
                            {
                              FIELDS::DATA => {
                                ELASTI_CACHE::REPLICA_CLUSTER_ID => cluster_id,
-                               ELASTI_CACHE::NODE_URLS => "somecache.tgbhomz.cfg.use1.cache.amazonaws.com:11211",
+                               ELASTI_CACHE::NODE_URLS => "somecache.tgbhomz.0001.use1.cache.amazonaws.com:11211,somecache.tgbhomz.0002.use1.cache.amazonaws.com:11211,somecache.tgbhomz.0003.use1.cache.amazonaws.com:11211",
                              },
                              FIELDS::PHYSICAL_RESOURCE_ID => cluster_id,
                            }
