@@ -23,14 +23,16 @@ module CloudFormation
         end
 
         def node_urls(cluster_id)
-          cluster = client.describe_cache_clusters(
-            cache_cluster_id: cluster_id,
-            show_cache_node_info: true
-          )[:cache_clusters][0]
+          cluster = find_cluster(cluster_id)
 
           cluster[:cache_nodes].map do |node|
             "#{node[:endpoint][:address]}:#{node[:endpoint][:port]}"
           end.join(",")
+        end
+
+        def config_endpoint(cluster_id)
+          cluster = find_cluster(cluster_id)
+          "#{cluster[:configuration_endpoint][:address]}:#{cluster[:configuration_endpoint][:port]}" if cluster[:engine] == 'memcached'
         end
 
         def wait_until_cluster_is_available(cluster_id)

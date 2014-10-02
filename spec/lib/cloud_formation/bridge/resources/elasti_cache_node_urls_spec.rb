@@ -11,12 +11,12 @@ describe CloudFormation::Bridge::Resources::ElastiCacheNodeUrls do
 
   context '#create' do
 
-    it 'produces the node URLs for a memcached cluster' do
+    it 'produces the node URLs and configuration endpoint for a memcached cluster' do
       cluster_id = "samplecache"
 
       expect(subject.client).to receive(:describe_cache_clusters).
                                   with(cache_cluster_id: cluster_id,
-                                       show_cache_node_info: true).twice.and_return(parse_json("describe-memcached-cluster"))
+                                       show_cache_node_info: true).at_least(:once).and_return(parse_json("describe-memcached-cluster"))
 
       request = CloudFormation::Bridge::Request.new(parse_json("create-cache-node-urls-message", false))
 
@@ -27,6 +27,7 @@ describe CloudFormation::Bridge::Resources::ElastiCacheNodeUrls do
                              FIELDS::DATA => {
                                ELASTI_CACHE::REPLICA_CLUSTER_ID => cluster_id,
                                ELASTI_CACHE::NODE_URLS => "somecache.tgbhomz.0001.use1.cache.amazonaws.com:11211,somecache.tgbhomz.0002.use1.cache.amazonaws.com:11211,somecache.tgbhomz.0003.use1.cache.amazonaws.com:11211",
+                               ELASTI_CACHE::CONFIG_ENDPOINT => "somecache.tgbhomz.cfg.use1.cache.amazonaws.com:11211"
                              },
                              FIELDS::PHYSICAL_RESOURCE_ID => cluster_id,
                            }
@@ -38,7 +39,7 @@ describe CloudFormation::Bridge::Resources::ElastiCacheNodeUrls do
       cluster_id = "dev-redis-replica"
       expect(subject.client).to receive(:describe_cache_clusters).
                                   with(cache_cluster_id: cluster_id,
-                                       show_cache_node_info: true).twice.and_return(parse_json("describe-cache-cluster-replica-done"))
+                                       show_cache_node_info: true).at_least(:once).and_return(parse_json("describe-cache-cluster-replica-done"))
 
       request = CloudFormation::Bridge::Request.new(parse_json("create-redis-cache-node-urls-message", false))
 
@@ -49,6 +50,7 @@ describe CloudFormation::Bridge::Resources::ElastiCacheNodeUrls do
                              FIELDS::DATA => {
                                ELASTI_CACHE::REPLICA_CLUSTER_ID => cluster_id,
                                ELASTI_CACHE::NODE_URLS => "dev-redis-replica.mzufvw.0001.use1.cache.amazonaws.com:6379,dev-redis-replica.mzufvw.0002.use1.cache.amazonaws.com:6379",
+                               ELASTI_CACHE::CONFIG_ENDPOINT => nil
                              },
                              FIELDS::PHYSICAL_RESOURCE_ID => cluster_id,
                            }
