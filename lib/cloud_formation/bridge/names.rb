@@ -37,6 +37,7 @@ module CloudFormation
         NODE_URLS = 'NodeURLs'
         REPLICA = 'replica'
         REPLICATION_GROUP_ID = 'ReplicationGroupId'
+        CONFIG_ENDPOINT = "ConfigurationEndpoint"
       end
 
     end

@@ -20,6 +20,7 @@ module CloudFormation
             FIELDS::DATA => {
               ELASTI_CACHE::REPLICA_CLUSTER_ID => cluster_id,
               ELASTI_CACHE::NODE_URLS => node_urls(cluster_id),
+              ELASTI_CACHE::CONFIG_ENDPOINT => config_endpoint(cluster_id)
             },
             FIELDS::PHYSICAL_RESOURCE_ID => cluster_id,
           }
