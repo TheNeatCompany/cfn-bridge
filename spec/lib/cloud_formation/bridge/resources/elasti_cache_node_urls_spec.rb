@@ -50,7 +50,6 @@ describe CloudFormation::Bridge::Resources::ElastiCacheNodeUrls do
                              FIELDS::DATA => {
                                ELASTI_CACHE::REPLICA_CLUSTER_ID => cluster_id,
                                ELASTI_CACHE::NODE_URLS => "dev-redis-replica.mzufvw.0001.use1.cache.amazonaws.com:6379,dev-redis-replica.mzufvw.0002.use1.cache.amazonaws.com:6379",
-                               ELASTI_CACHE::CONFIG_ENDPOINT => nil
                              },
                              FIELDS::PHYSICAL_RESOURCE_ID => cluster_id,
                            }
