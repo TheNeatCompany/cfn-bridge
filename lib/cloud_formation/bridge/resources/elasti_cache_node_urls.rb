@@ -16,12 +16,18 @@ module CloudFormation
 
           wait_until_cluster_is_available(cluster_id)
 
+          data = {
+            ELASTI_CACHE::REPLICA_CLUSTER_ID => cluster_id,
+            ELASTI_CACHE::NODE_URLS => node_urls(cluster_id),
+
+          }
+
+          if config = config_endpoint(cluster_id)
+            data[ELASTI_CACHE::CONFIG_ENDPOINT] = config
+          end
+
           {
-            FIELDS::DATA => {
-              ELASTI_CACHE::REPLICA_CLUSTER_ID => cluster_id,
-              ELASTI_CACHE::NODE_URLS => node_urls(cluster_id),
-              ELASTI_CACHE::CONFIG_ENDPOINT => config_endpoint(cluster_id)
-            },
+            FIELDS::DATA => data,
             FIELDS::PHYSICAL_RESOURCE_ID => cluster_id,
           }
         end

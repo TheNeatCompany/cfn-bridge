@@ -1,0 +1,58 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "AWS CloudFormation template for standing a redis cluster.",
+
+  "Parameters": {
+    "EntryTopic": {
+      "Description": "SNS topic that will be used no notify custom resource creation",
+      "Type": "String"
+    }
+  },
+
+  "Resources": {
+
+    "RedisSecurityGroup": {
+      "Type": "AWS::ElastiCache::SecurityGroup",
+      "Properties": {
+        "Description": "Security group for the cache"
+      }
+    },
+
+    "ElasticacheCluster": {
+      "Type": "AWS::ElastiCache::CacheCluster",
+      "Properties": {
+        "AutoMinorVersionUpgrade": "true",
+        "Engine": "redis",
+        "CacheNodeType": "cache.t1.micro",
+        "NumCacheNodes": "1",
+        "CacheSecurityGroupNames": [
+          {
+            "Ref": "RedisSecurityGroup"
+          }
+        ]
+      }
+    },
+
+    "ElasticacheClusterURLs": {
+      "Type": "Custom::ElastiCacheNodeURLs",
+      "Properties": {
+        "ServiceToken": {
+          "Ref": "EntryTopic"
+        },
+        "ClusterId": {
+          "Ref": "ElasticacheCluster"
+        }
+      }
+    }
+
+  },
+
+  "Outputs": {
+    "ReplicaURLs": {
+      "Value": {
+        "Fn::GetAtt": ["ElasticacheClusterURLs", "NodeURLs"]
+      }
+    }
+  }
+
+}
