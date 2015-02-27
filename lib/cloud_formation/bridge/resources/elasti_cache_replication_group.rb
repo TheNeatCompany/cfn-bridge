@@ -40,8 +40,6 @@ module CloudFormation
           }
         end
 
-        alias_method :update, :create
-
         def delete(request)
           require_fields(request, ELASTI_CACHE::REPLICATION_GROUP_ID)
 
