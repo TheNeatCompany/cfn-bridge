@@ -32,9 +32,12 @@ module CloudFormation
           }
         end
 
+        alias_method :update, :create
+
         def delete(request)
         end
 
+ 
       end
 
     end
