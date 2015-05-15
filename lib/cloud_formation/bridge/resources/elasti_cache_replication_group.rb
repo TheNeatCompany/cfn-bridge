@@ -25,7 +25,7 @@ module CloudFormation
           ncc_int = request.resource_properties[ELASTI_CACHE::NUM_CACHE_CLUSTERS].to_i
           num_cache_clusters = ncc_int > 0 ? ncc_int : nil
 
-          response = client.create_replication_group(
+          client.create_replication_group(
             replication_group_id: replication_id,
             primary_cluster_id: request.resource_properties[ELASTI_CACHE::CLUSTER_ID],
             replication_group_description: request.resource_properties[ELASTI_CACHE::DESCRIPTION],
