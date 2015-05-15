@@ -38,6 +38,10 @@ module CloudFormation
         REPLICA = 'replica'
         REPLICATION_GROUP_ID = 'ReplicationGroupId'
         CONFIG_ENDPOINT = "ConfigurationEndpoint"
+        AUTOMATIC_FAILOVER = "AutomaticFailover"
+        NUM_CACHE_CLUSTERS = "NumCacheClusters"
+        PE_ADDRESS = "PrimaryEndpointAddress"
+        PE_PORT = "PrimaryEndpointPort"
       end
 
     end
